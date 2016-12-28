@@ -1,0 +1,20 @@
+/* calendarDay.css  */
+
+.THIS.outline {
+        padding-left: 0px !important;
+    padding-right: 0px !important;
+    border: solid black 1px;
+    vertical-align:top;
+}
+
+.THIS th {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    text-align: center;
+    border-bottom: solid 1px;
+    border-bottom-color: black !important;
+}
+
+.THIS .tdSub {
+    
+}
