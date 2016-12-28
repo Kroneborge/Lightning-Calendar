@@ -1,0 +1,46 @@
+public class CalendarEvent_CLASS {
+    
+    @AuraEnabled
+    public static List<String> getDepartments() {
+        List<Schema.PicklistEntry> pickList = Event.Department__c.getDescribe().getPicklistValues();
+        system.debug(pickList);
+        List<String> stringList = new List<String>();
+        stringList.add('Any');
+        
+        for (Schema.PicklistEntry pick : pickList) {
+            String newString = pick.getValue();
+            stringList.add(newString);
+        }
+        return stringList;
+    }
+/*    
+    @AuraEnabled
+    public static List<String> getUsers() {
+        List<User> userList = [SELECT Name FROM User];
+        List<String> stringList = new List<String>();
+        stringList.add('Any');
+        
+        for (User u : userList) {
+            String newString = u.Name;
+            stringList.add(newString);
+        }
+        return stringList;
+    }   
+*/
+    
+   @AuraEnabled
+    public static List<Event> getEventList(Decimal month, Decimal year) {
+        
+
+        Integer workingMonth = (Integer)month;
+        Integer workingYear = (Integer)year;
+        system.debug('year ' + year);
+        system.debug('currentMonth' + workingMonth);
+
+        List<Event> eventList = [SELECT Subject, Id, StartDateTime, department__c FROM Event 
+                                 WHERE (CALENDAR_MONTH(StartDateTime) = :workingMonth AND CALENDAR_YEAR(StartDateTime) = :workingYear) AND Reporting_Calendar__c=true]; //
+        system.debug(eventList);
+        return eventList;
+    }
+
+}
