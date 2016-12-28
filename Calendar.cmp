@@ -1,0 +1,48 @@
+<!-- Calendar.cmp  -->
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" controller="CalendarEvent_CLASS">
+    <aura:attribute name="daysOfWeek" type="String[]"/>
+    <aura:attribute name="week1" type="String"/>
+    <aura:attribute name="month" type="String"/>
+    <aura:attribute name="currentMonth" type="Date"/>
+    <aura:attribute name="pickList" type="String[]"/>
+    <aura:attribute name="selectedDept" type="String" default="Any"/>
+    <aura:attribute name="selectedUser" type="String" default="Any"/>
+    <aura:attribute name="eventList" type="Event[]"/>
+ 
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+ 
+    <div class="slds-grid slds-page-header"   role="banner">  <!-- banner  -->
+        
+        
+        <div class=" slds-size--1-of-12 slds-align--absolute-center"   > <lightning:buttonIcon name="back" alternativeText="Back" iconName="utility:chevronleft" onclick="{!c.lastMonth}"/> </div>
+   	    <div class=" slds-size--9-of-12 slds-align--absolute-center"> <b>{!v.month} </b></div>
+        <div class=" slds-size--1-of-12 slds-align--absolute-center"  >  <lightning:buttonIcon name="back" alternativeText="Back" iconName="utility:chevronright" onclick="{!c.nextMonth}"/> </div>
+        <div class=" slds-size--1-of-12 slds-align--absolute-center"  > 
+            
+    <lightning:select name="pick" label="Department" onchange="{!c.updateDepartment}" aura:id="pickId">
+        <aura:iteration items="{!v.pickList}" var="item">
+        <option value="{!item}">{!item}</option>
+        
+        </aura:iteration>
+    
+    </lightning:select>
+        
+        </div>
+            
+    </div>
+
+	<table class="slds-table  slds-is-resizable" role="grid">
+  		<thead>
+   			 <tr class="slds-text-title--caps">
+                 <aura:iteration items="{!v.daysOfWeek}" var="day">
+                     <th class="slds-cell-shrink" scope="col" style="text-align: center;"><b>{!day}</b> </th>
+                 </aura:iteration>
+            </tr>
+        </thead>
+        <tbody>
+   {!v.body}
+        
+        </tbody>
+    </table>
+
+</aura:component>
