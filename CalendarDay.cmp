@@ -1,0 +1,23 @@
+<!-- CalendarDay.cmp  -->
+<aura:component >
+    <aura:attribute name="day" type="String"/>
+    <aura:attribute name="visible" type="Boolean" default="true"/>
+    <aura:attribute name="toDoItems" type="String[]"/>
+    
+    <td class = "outline" scope="col">
+       <aura:if isTrue="{!v.visible}">  
+   		    <table class="slds-table  slds-table--cell-buffer" role="grid">
+  				<thead>
+                     <tr class="slds-text-title--caps">
+                            <th class="slds-cell-shrink" scope="col"> <b>{!v.day}</b> </th>
+                    </tr>
+      		   </thead>
+                <tbody>
+                    <aura:iteration items="{!v.toDoItems}" var="item">
+                        <tr><td class="slds-cell-shrink slds-truncate tdSub" scope="col">{!item} </td></tr>
+                       </aura:iteration>
+                </tbody>
+  		  </table>
+       </aura:if>
+    </td>
+</aura:component>
