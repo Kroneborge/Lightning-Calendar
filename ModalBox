@@ -1,0 +1,27 @@
+<aura:component >
+    <aura:attribute name="onClose" type="Aura.Action" default="{!c.defaultCloseAction}"/>
+    <aura:attribute name="onCancel" type="Aura.Action" default="{!c.onCancel}"/> 
+    <aura:attribute name="onSubmit" type="Aura.Action" default="{!c.defaultCloseAction}"/>
+	<aura:attribute name="title" type="String" required="true" default="Insert Title Here" />    
+    
+    <div role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            
+            <div class="slds-modal__header">
+                 <h2 id="header43" class="slds-text-heading--medium">{!v.title}</h2>
+            </div> <!-- end header -->
+
+            <div class="slds-modal__content slds-p-around--medium">
+                <div>
+                      {!v.body}  <!-- use this if you insert here  -->
+                 
+                </div>
+            </div>
+            <div class="slds-modal__footer">
+             	<lightning:button label="Cancel" variant="neutral" onclick="{!v.onCancel}"/>
+                <lightning:button label="Submit" variant="brand" onclick="{!v.onSubmit}"/>
+             </div>
+        </div>
+    </div>
+    <div class="slds-backdrop slds-backdrop--open"></div>	
+</aura:component>
