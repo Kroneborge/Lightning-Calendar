@@ -1,8 +1,10 @@
-<!-- CalendarDay.cmp  -->
 <aura:component >
     <aura:attribute name="day" type="String"/>
     <aura:attribute name="visible" type="Boolean" default="true"/>
-    <aura:attribute name="toDoItems" type="String[]"/>
+    <aura:attribute name="toDoItems" type="Object[]" />
+    <aura:attribute name="toDoStatus" type="boolean[]"/>
+    
+    <aura:registerEvent name="editEvent" type="c.selectEvent"/>
     
     <td class = "outline" scope="col">
        <aura:if isTrue="{!v.visible}">  
@@ -13,8 +15,8 @@
                     </tr>
       		   </thead>
                 <tbody>
-                    <aura:iteration items="{!v.toDoItems}" var="item">
-                        <tr><td class="slds-cell-shrink slds-truncate tdSub" scope="col">{!item} </td></tr>
+                    <aura:iteration items="{!v.toDoItems}" var="item" >
+                        <tr> <c:CalendarDayItem item="{!item}"/> </tr>
                        </aura:iteration>
                 </tbody>
   		  </table>
