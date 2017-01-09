@@ -1,0 +1,12 @@
+({
+	selectEvent : function(component, event, helper) {
+
+        var selectedEvent = component.get('v.item');
+        var updateEvent = component.getEvent('editEvent');
+        updateEvent.setParams({'eventPackage': selectedEvent});
+       //  console.log('selected event = ' + JSON.stringify(selectedEvent));
+        updateEvent.fire();
+       
+		
+	}
+})
