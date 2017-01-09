@@ -1,16 +1,19 @@
-public class CalendarEvent_CLASS {
+public without sharing class CalendarEvent_CLASS {
     
     @AuraEnabled
     public static List<String> getDepartments() {
+        List<String> stringList = new List<String>();
+     
         List<Schema.PicklistEntry> pickList = Event.Department__c.getDescribe().getPicklistValues();
         system.debug(pickList);
-        List<String> stringList = new List<String>();
+        
         stringList.add('Any');
         
         for (Schema.PicklistEntry pick : pickList) {
             String newString = pick.getValue();
             stringList.add(newString);
         }
+
         return stringList;
     }
 /*    
@@ -30,17 +33,34 @@ public class CalendarEvent_CLASS {
     
    @AuraEnabled
     public static List<Event> getEventList(Decimal month, Decimal year) {
-        
-
         Integer workingMonth = (Integer)month;
         Integer workingYear = (Integer)year;
         system.debug('year ' + year);
         system.debug('currentMonth' + workingMonth);
-
-        List<Event> eventList = [SELECT Subject, Id, StartDateTime, department__c FROM Event 
-                                 WHERE (CALENDAR_MONTH(StartDateTime) = :workingMonth AND CALENDAR_YEAR(StartDateTime) = :workingYear) AND Reporting_Calendar__c=true]; //
+        List<Event> eventList = [SELECT Subject, Id, StartDateTime, Department__c, Out_Of_Office__c, Status__c, Reporting_Calendar__c FROM Event 
+                                 WHERE (CALENDAR_MONTH(StartDateTime) = :workingMonth AND CALENDAR_YEAR(StartDateTime) = :workingYear) AND Reporting_Calendar__c=true AND isRecurrence=false]; //
         system.debug(eventList);
         return eventList;
     }
+    
+    @AuraEnabled
+    public static Event getNewEvent(Event newEvent) {
+        String userId = UserInfo.getUserId();
+        newEvent.OwnerId = userId;
+        upsert newEvent;
+        system.debug(newEvent);
+        return newEvent;
+    }
 
+        @AuraEnabled
+        public static Event getEditEvent(Event newEvent) {
+        Event oldEvent = newEvent;
+        delete oldEvent;
+        newEvent.Id = null;
+        newEvent.DurationInMinutes = 60;
+        upsert newEvent;
+        system.debug(newEvent);
+        return newEvent;
+    }
+    
 }
