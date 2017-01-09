@@ -10,7 +10,7 @@
             if (component.isValid() && state === "SUCCESS") {
                 var returned =response.getReturnValue();
                 console.log("SUCCESS returned: " + JSON.stringify(returned));
-                component.set('v.pickList', returned);
+                component.set('v.deptPickList', returned);
             }
         });
         $A.enqueueAction(action);          
@@ -99,6 +99,7 @@
  // in this section, we loop through the days of the month and create components for each day       
         for (var i = 1; i <= monthLength; i++) {  //
             var stringBody = [];
+            var toDoBoolean = [];
             var nextDay = nextDay.toISOString().slice(0,10);
             // console.log('nextDay ' +nextDay);
             for(var e = 0;  e < eventList.length; e ++) {
@@ -108,10 +109,21 @@
                 // if the calendar day of the month matches the calendar day of the event, then add the subject of the event to the calendar day compeonet
             	if (eventDate == nextDay) {
                     if (selectedDept == 'Any') {
-                    	stringBody.push(eventList[e].Subject);    
+                        var obj = {checked: false, subject: ''};
+                        obj=eventList[e];
+                      //  obj.subject=eventList[e].Subject;
+                    //    obj.Id = eventList[e].Id;
+                     //   obj.class = 'outOfOffice';
+                        if (eventList[e].Status__c == 'Completed') { obj.checked = true; }
+                    	stringBody.push(obj);    
+                    
+                        
                     }
                     else if (eventDept == selectedDept) {
-                        stringBody.push(eventList[e].Subject); 
+                        var obj = {checked: false, subject: ''};
+                        obj=eventList[e];
+                        if (eventList[e].Status__c == 'Completed') { obj.checked = true; }
+                    	stringBody.push(obj);
                     }
             	}                
             } // end for 
@@ -123,7 +135,9 @@
      		
             newComponents.push(["c:CalendarDay", {
 				"day": i,
-                 "toDoItems": stringBody
+                 "toDoItems": stringBody,
+              
+                
         	 }]); 
         }  
         
