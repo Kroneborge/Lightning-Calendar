@@ -4,23 +4,41 @@
     <aura:attribute name="week1" type="String"/>
     <aura:attribute name="month" type="String"/>
     <aura:attribute name="currentMonth" type="Date"/>
-    <aura:attribute name="pickList" type="String[]"/>
+    <aura:attribute name="deptPickList" type="String[]"/>
     <aura:attribute name="selectedDept" type="String" default="Any"/>
     <aura:attribute name="selectedUser" type="String" default="Any"/>
     <aura:attribute name="eventList" type="Event[]"/>
+    <aura:attribute name="newEvent" type="Event" default="{ sobjectType: 'Event', 'DurationInMinutes': 60, 'Department__c': 'Finance', 'Reporting_Calendar__c': 'true', 'Status__c': 'Not Started', 'Out_Of_Office__c': '' }"/>
+    <aura:attribute name="selectedEvent" type="Event" default="{ sobjectType: 'Event'}"/>
  
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="editEvent" event="c.selectEvent" action="c.editEvent"/>
+    
+    
+    
+   	<div class="hideModal" aura:id="newEventModal">
+   	 <c:ModalBox onSubmit="{!c.newEventSubmit}" onCancel="{!c.newEventCancel}" title="Enter New Event">
+    	<c:EventForm deptPickList="{!v.deptPickList}" newEvent="{!v.newEvent}" aura:id="newEvent"/>
+    </c:ModalBox>
+    </div>
+    
+   	<div class="hideModal" aura:id="editEventModal">
+   	 <c:ModalBox onSubmit="{!c.editEventSubmit}" onCancel="{!c.editEventCancel}" title="Edit Event">
+    	<c:EventForm deptPickList="{!v.deptPickList}" newEvent="{!v.selectedEvent}" aura:id="editEvent"/>
+    </c:ModalBox>
+    </div>
+    
  
     <div class="slds-grid slds-page-header"   role="banner">  <!-- banner  -->
         
-        
+        <div class=" slds-size--1-of-12 slds-align--absolute-center"   > <lightning:button name="newEvent"  label="New Event" onclick="{!c.newEvent}" variant="brand"/> </div>
         <div class=" slds-size--1-of-12 slds-align--absolute-center"   > <lightning:buttonIcon name="back" alternativeText="Back" iconName="utility:chevronleft" onclick="{!c.lastMonth}"/> </div>
-   	    <div class=" slds-size--9-of-12 slds-align--absolute-center"> <b>{!v.month} </b></div>
+   	    <div class=" slds-size--8-of-12 slds-align--absolute-center"> <b>{!v.month} </b></div>
         <div class=" slds-size--1-of-12 slds-align--absolute-center"  >  <lightning:buttonIcon name="back" alternativeText="Back" iconName="utility:chevronright" onclick="{!c.nextMonth}"/> </div>
         <div class=" slds-size--1-of-12 slds-align--absolute-center"  > 
             
     <lightning:select name="pick" label="Department" onchange="{!c.updateDepartment}" aura:id="pickId">
-        <aura:iteration items="{!v.pickList}" var="item">
+        <aura:iteration items="{!v.deptPickList}" var="item">
         <option value="{!item}">{!item}</option>
         
         </aura:iteration>
@@ -45,4 +63,8 @@
         </tbody>
     </table>
 
+
+    
+
+	
 </aura:component>
