@@ -1,0 +1,39 @@
+<!-- EventForm .cmp  Takes and event Object and displays a form -->
+<aura:component >
+    <aura:attribute name="newEvent" type="Event" default="{ sobjectType: 'Event' }"/>
+    <aura:attribute name="subject" type="String"/>
+    <aura:attribute name="description" type="String"/>
+    <aura:attribute name="deptPickList" type="String[]"/>
+    <aura:attribute name="OutOfOffice" type="String[]" default=" ,Out Of Office,Working Remote"/>
+    <aura:attribute name="Status" type="String[]" default="Not Started,In Progress,Completed"/>
+    <aura:attribute name="selectedDept" type="String" default="Any"/>
+    <aura:attribute name="OwnerId" type="String"/>
+    <aura:attribute name="StartDateTime" type="DateTime"/>
+
+    <ui:inputDateTime label="Enter Date and Time"  value="{!v.newEvent.StartDateTime}" displayDatePicker="true"/>
+
+    <lightning:select name="pick" label="Department"  aura:id="eventDeptPickId" value="{!v.newEvent.Department__c}">
+        <aura:iteration items="{!v.deptPickList}" var="item">
+        	<option value="{!item}">{!item}</option>
+        </aura:iteration>
+    </lightning:select>
+
+    <lightning:input label="Subject" value="{!v.newEvent.Subject}" name="subject"/>
+
+    <lightning:select name="pick" label="Out Of Office"  aura:id="pickId" value="{!v.newEvent.Out_Of_Office__c}">
+        <aura:iteration items="{!v.OutOfOffice}" var="item">
+        	<option value="{!item}">{!item}</option>
+        </aura:iteration>
+    </lightning:select>
+    
+    <lightning:input label="Desciption" value="{!v.newEvent.Description}" name="description"/>
+    
+    <lightning:select name="pick" label="Status"  aura:id="statusPickId" value="{!v.newEvent.Status__c}">
+        <aura:iteration items="{!v.Status}" var="item">
+        	<option value="{!item}">{!item}</option>
+        </aura:iteration>
+    </lightning:select>    
+    
+    <lightning:input type="checkbox" name="reporting" value="{!v.newEvent.Reporting_Calendar__c}" label="Reporting Calendar" checked="{!v.newEvent.Reporting_Calendar__c}" aura:id="reportingCheck"/>
+	
+</aura:component>
