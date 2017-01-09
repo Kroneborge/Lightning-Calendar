@@ -1,0 +1,14 @@
+<aura:component >
+    <aura:attribute name="item" type="Object"/>
+        <aura:registerEvent name="editEvent" type="c.selectEvent"/>
+       <td class="{!'slds-cell-shrink slds-truncate tdSub ' + v.item.class}" scope="col" id="{!v.item.Id}" onclick="{!c.selectEvent}" > 
+           <table>
+               <tr>
+                   <td><ui:inputCheckBox value="{!(v.item.Status__c == 'Completed') ? true : false}"/>  </td>
+                   <td>{!v.item.Subject}</td> 
+               </tr>
+           </table>
+        </td>
+
+     
+</aura:component>
